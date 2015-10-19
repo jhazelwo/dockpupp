@@ -1,0 +1,20 @@
+
+
+Welcome to the Puppet master!
+  This is where you will do all of your testing.
+
+To run ALL modules on this host simply run:
+  puppet agent -t --debug
+
+You can test modules indvidually with:
+  puppet apply --debug -e "include my-module-name-here"
+
+Hiera data can be added to:
+    /var/lib/hiera/common.yaml
+
+The ./modules and ./hiera directories have been mapped
+  to /opt/modules and /var/lib/hiera; any changes you 
+  make to them in this container are applied to the 
+  real files on the host. Be careful!
+
+
