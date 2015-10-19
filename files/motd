@@ -9,12 +9,17 @@ To run ALL modules on this host simply run:
 You can test modules indvidually with:
   puppet apply --debug -e "include my-module-name-here"
 
-Hiera data can be added to:
-    /var/lib/hiera/common.yaml
+Any yaml files you put in ./hiera are available in:
+  /var/lib/hiera/
+
+Your modules are in:
+  /opt/modules/
+
+Except for the directories below any changes made 
+  to this container are lost when you 'exit'.
 
 The ./modules and ./hiera directories have been mapped
   to /opt/modules and /var/lib/hiera; any changes you 
   make to them in this container are applied to the 
   real files on the host. Be careful!
-
 
