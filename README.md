@@ -8,7 +8,7 @@
 - Create yaml files in ./hiera if you need to provide Hiera data to the node.
 - The container is disposable, your data is not. **Changes to /var/lib/hiera/*
  or /opt/modules/* in a container WILL APPLY to the ./modules and ./hiera
- directories of the host systems.**
+ directories of the host system.**
 - To build the image run ./Build.sh
 - To start a container based on that image run ./Go.sh
 

@@ -15,7 +15,7 @@ Any yaml files you put in ./hiera are available in:
 Your modules are in:
   /opt/modules/
 
-Except for the directories below any changes made 
+Except for the directories below any changes made
   to this container are lost when you 'exit'.
 
 The ./modules and ./hiera directories have been mapped
