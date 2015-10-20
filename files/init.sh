@@ -1,21 +1,25 @@
 #!/bin/sh
 #
-# 
+# files/init.sh - Last-minute changes then start apps.
+
 # If there are modules then add them to the node.
-echo "node 'puppet' {" > /etc/puppet/manifests/site.pp
-for this in `ls /opt/modules`; do
-	echo "  include ${this}" >> /etc/puppet/manifests/site.pp
-	ln -s /opt/modules/$this /etc/puppet/modules/$this
-done
-echo "}" >> /etc/puppet/manifests/site.pp
-echo "" >> /etc/puppet/manifests/site.pp
-#
+cat << end_trans > /etc/puppet/manifests/site.pp
+node 'puppet' {
+`for this in $(ls /opt/modules); do echo "  include ${this}"; done`
+}
+
+end_trans
+
+# Create a default Hiera file using all yaml files in modules.
+cat << end_trans > /var/lib/hiera/common.yaml
+---
+`find /opt/modules -name \*.yaml -o -name \*.yml | xargs cat | egrep '^\w'|sort|uniq`
+
+end_trans
+
 # Run the Puppet master in the background.
 /usr/bin/puppet master --verbose --certname=puppet --server=puppet --logdest=/root/puppet.log
-#
-# Make sure we see the banner on log in.
-echo "cat /etc/motd" >> /root/.bashrc
-#
+
 # And finally give the user a shell.
 /bin/bash
 

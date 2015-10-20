@@ -5,7 +5,8 @@ image="jhazelwo/dockpupp"
 docker inspect $image > `mktemp` || ./Build.sh
 
 modules="-v `pwd`/modules:/opt/modules"
-hiera="-v `pwd`/hiera:/var/lib/hiera"
+#modules="-v /media/sf_GitHub:/usr/share/puppet/modules"
+extra="-v /mnt/foo:/opt/bar"
 
-/usr/bin/docker run --rm --hostname=puppet ${modules} ${hiera} -t -i $image
+/usr/bin/docker run --rm --hostname=puppet ${modules} ${extra} -t -i $image
 
