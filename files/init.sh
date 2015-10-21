@@ -3,7 +3,8 @@
 # files/init.sh - Last-minute changes then start apps.
 
 # If there are modules then add them to the node.
-cat << end_trans > /etc/puppet/manifests/site.pp
+##cat << end_trans > /etc/puppet/manifests/site.pp
+cat << end_trans > /etc/puppet/environments/production/manifests/site.pp
 node 'puppet' {
 `for this in $(ls /opt/modules); do echo "  include ${this}"; done`
 }

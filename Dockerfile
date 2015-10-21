@@ -10,10 +10,12 @@ RUN yum clean expire-cache && \
 
 RUN /usr/bin/puppet cert generate master
 RUN /usr/bin/puppet module install puppetlabs-stdlib
-RUN /usr/bin/puppet config set disable_warnings deprecations
-RUN /usr/bin/puppet config set modulepath /etc/puppet/modules:/usr/share/puppet/modules:/opt/modules
+RUN /usr/bin/puppet config set environmentpath /etc/puppet/environments/
+RUN mkdir -vp /etc/puppet/environments/production/manifests
+
 RUN echo "cat /etc/motd" >> /root/.bashrc
 
+ADD ./files/environment.conf /etc/puppet/environments/production/
 ADD ./files/motd /etc/motd
 
 ADD ./files/init.sh /root/
