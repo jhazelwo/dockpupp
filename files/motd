@@ -13,7 +13,7 @@ Your modules are in:
   /opt/modules/
 
 Your modules have been automatically added to:
-  /etc/puppet/manifests/site.pp
+  /etc/puppet/environments/production/manifests/site.pp
 
 Except for '/opt/modules/*' any changes made
   to this container are lost when you 'exit'.
