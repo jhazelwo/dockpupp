@@ -2,6 +2,7 @@
 #
 # files/init.sh - Last-minute changes then start apps.
 #
+# Let user stop container boot with CRTL-C.
 trap "exit 2" 2
 #
 wait_for_file() {
