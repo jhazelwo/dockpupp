@@ -12,8 +12,9 @@ RUN yum clean expire-cache && \
 RUN /usr/bin/puppet cert generate master
 RUN /usr/bin/puppet module install puppetlabs-stdlib
 RUN /usr/bin/puppet config set environmentpath /etc/puppet/environments/
-RUN /usr/bin/puppet config set storeconfigs true --section master
-RUN /usr/bin/puppet config set storeconfigs_backend puppetdb --section master
+RUN /usr/bin/puppet config set storeconfigs true
+RUN /usr/bin/puppet config set storeconfigs_backend puppetdb
+RUN /usr/bin/puppet config set certname puppet
 RUN mkdir -vp /etc/puppet/environments/production/manifests
 
 RUN echo "cat /etc/motd" >> /root/.bashrc

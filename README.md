@@ -1,6 +1,6 @@
 dockpupp
 ========
-## A Docker container running a Puppet master on CentOS 7.
+## PuppetDB and master running in a CentOS 7 Docker container.
 - First [Install Docker](http://docs.docker.com/linux/step_one/)
 - Created to make testing Puppet modules easier.
 - This is a single-server setup, the master is its own node.

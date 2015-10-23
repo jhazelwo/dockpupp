@@ -1,24 +1,20 @@
 #!/bin/sh
+
 #
 # files/init.sh - Last-minute changes then start apps.
 #
+
 # Let user stop container boot with CRTL-C.
 trap "exit 2" 2
-#
+
 wait_for_file() {
-    # Wait 90 seconds for a file/socket/dir/link
-    end="$(($(date '+%s')+90))"
+    # Wait 180 seconds for a file/socket/dir/link
+    end="$(($(date '+%s')+180))"
     while [ ! -e $1 ]; do
-        test "`date '+%s'`" -gt "${end}" && exit 9
+        test "`date '+%s'`" -gt "${end}" && { echo timeout; exit 9; }
         sleep 1;
     done
 }
-
-echo -n "`date` Updating Puppet config"
-/usr/bin/puppet config set storeconfigs true
-/usr/bin/puppet config set storeconfigs_backend puppetdb
-/usr/bin/puppet config set certname puppet
-echo "."
 
 echo -n "`date` Adding your modules to this node"
 cat << EOF > /etc/puppet/environments/production/manifests/site.pp
@@ -55,13 +51,15 @@ wait_for_file /var/lib/puppet/ssl/private_keys/puppet.pem
 wait_for_file /var/lib/puppet/ssl/certs/puppet.pem
 echo "."
 
-echo "`date` Create SSL files for PuppetDB:"
+echo "`date` Creating SSL files for PuppetDB:"
 /usr/libexec/puppetdb/puppetdb-ssl-setup -f
 
 echo -n "`date` Starting PuppetDB"
 java_opts="-Xmx192m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/puppetdb/puppetdb-oom.hprof -Djava.security.egd=file:/dev/urandom"
 java_jar="-cp /usr/share/puppetdb/puppetdb.jar"
 /usr/bin/java ${java_opts} ${java_jar} clojure.main -m com.puppetlabs.puppetdb.core services -c /etc/puppetdb/conf.d &
+# This is pretty slow on my system, had to double the timeout.
+#
 wait_for_file /var/log/puppetdb/puppetdb.log
 echo "."
 
